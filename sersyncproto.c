@@ -6,8 +6,6 @@
  */
 #include "sersyncproto.h"
 
-#include "../uart/uart.h"
-
 uint8_t sersyncproto(sersyncproto_data_t* data, uint8_t cur_byte)
 {
 	if(data->_state > __SERSYNCPROTO_CHKSUM_START
