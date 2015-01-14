@@ -10,6 +10,9 @@
 
 #include <inttypes.h>
 
+
+
+
 typedef enum
 {
 	SERSYNCPROTO_STATE_HEADER,
@@ -44,6 +47,6 @@ typedef struct
 		DATA._cmd_array[DATA.cmd]
 
 
-uint8_t sersyncproto(sersyncproto_data_t* data, uint8_t cur_byte);
-
+uint8_t sersyncproto_rec(sersyncproto_data_t* data, uint8_t cur_byte);
+uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, void (*sendbyte)(uint8_t) );
 #endif /* SERSYNCPROTO_H_ */

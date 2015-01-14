@@ -6,7 +6,45 @@
  */
 #include "sersyncproto.h"
 
-uint8_t sersyncproto(sersyncproto_data_t* data, uint8_t cur_byte)
+uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, void (*sendbyte)(uint8_t) )
+{
+	uint8_t found=0;
+	for (uint8_t c = 0; c < data->_cmd_cnt; ++c)
+	{
+
+		if(data->_cmd_array[c]==cmd)
+		{
+			found=1;
+			cmd=c;
+			break;
+		}
+	}
+	if(found)
+	{
+		for (int hd = 0; hd < data->_header_len; ++hd)
+		{
+			sendbyte(data->_header[hd]);
+		}
+
+		uint8_t chksum=cmd;
+		sendbyte(cmd);
+
+		for (int pb = 0; pb < data->_payload_lengths[cmd]; ++pb)
+		{
+			chksum^=payload[pb];
+			sendbyte(payload[pb]);
+		}
+		sendbyte(chksum);
+	}
+	else
+	{
+		return 0;
+	}
+
+	return 1;
+}
+
+uint8_t sersyncproto_rec(sersyncproto_data_t* data, uint8_t cur_byte)
 {
 	if(data->_state > __SERSYNCPROTO_CHKSUM_START
 	&& data->_state < __SERSYNCPROTO_CHKSUM_END)
