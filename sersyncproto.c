@@ -131,11 +131,12 @@ uint8_t sersyncproto_rec(sersyncproto_data_t* data, uint8_t cur_byte)
 
 			//Checksum
 		case SERSYNCPROTO_STATE_CHKSUM:
+			//Reset for next header, return 1
+		    data->_state=SERSYNCPROTO_STATE_HEADER;
+			data->_length=0;
+
 			if(data->_chksum==cur_byte)//checksum equal to current byte?
 			{
-				//Reset for next header, return 1
-				data->_state=SERSYNCPROTO_STATE_HEADER;
-				data->_length=0;
 				return 1;
 			}
 			break;
