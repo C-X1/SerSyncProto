@@ -4,7 +4,7 @@
  *  Created on: Jan 13, 2015
  *      Author: Christian Holl
  */
-#include "sersyncproto.h"
+#include <sersyncproto.h>
 
 uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, void (*sendbyte)(uint8_t) )
 {
