@@ -11,9 +11,7 @@
 #include <inttypes.h>
 
 #ifdef __cplusplus
-	extern "C"
-	{
-
+	#include <boost/function.hpp>
 #endif
 
 
@@ -58,19 +56,28 @@ typedef struct
  */
 uint8_t sersyncproto_rec(sersyncproto_data_t* data, uint8_t cur_byte);
 
-/**
- * Sending function
- * @param data The data struct containing the definitions
- * @param cmd The command to be issued
- * @param payload The payload of the current function
- * @param sendbyte The USER_IMPLEMENTATION of a function which sends the byte over the serial interface
- */
-
-uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, void (*sendbyte)(uint8_t) );
-
 
 #ifdef __cplusplus
-	}
+	/**
+	 * Sending function
+	 * @param data The data struct containing the definitions
+	 * @param cmd The command to be issued
+	 * @param payload The payload of the current function
+	 * @param sendbyte The USER_IMPLEMENTATION of a function which sends the byte over the serial interface
+	 */
+
+	uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, const boost::function< void (uint8_t) > sendbyte);
+#else
+	/**
+	 * Sending function
+	 * @param data The data struct containing the definitions
+	 * @param cmd The command to be issued
+	 * @param payload The payload of the current function
+	 * @param sendbyte The USER_IMPLEMENTATION of a function which sends the byte over the serial interface
+	 */
+
+	uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, void (*sendbyte)(uint8_t) );
 #endif
+
 
 #endif /* SERSYNCPROTO_H_ */

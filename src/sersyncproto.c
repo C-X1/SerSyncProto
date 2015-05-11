@@ -6,7 +6,11 @@
  */
 #include <sersyncproto.h>
 
+#ifdef __cplusplus
+uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, const boost::function< void (uint8_t) > sendbyte)
+#else
 uint8_t sersyncproto_send(sersyncproto_data_t* data, uint8_t cmd, uint8_t* payload, void (*sendbyte)(uint8_t) )
+#endif
 {
 	uint8_t found=0;
 	//Check for the command
